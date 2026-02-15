@@ -69,3 +69,19 @@ void ListaJugadores::InsertarJugador(string nombre)
     
     
 }
+
+// Funcion para calcular el resultado de cada partida
+int resultado(int jugador1, int jugador2)
+{
+    // Los jugadores eligen la misma opcion
+    if (jugador1 == jugador2)
+        return 0; // empate
+
+    // Se usa operador logico AND comparando las 2 jugadas, y OR para comparar cada caso que gana el jugador 1
+    if ((jugador1 == 1 && jugador2 == 2) || // tijera gana papel
+        (jugador1 == 2 && jugador2 == 3) || // papel gana piedra
+        (jugador1 == 3 && jugador2 == 1))   // piedra gana tijera
+        return 1;                           // gana jugador 1
+
+    return -1; // gana jugador 2
+}
