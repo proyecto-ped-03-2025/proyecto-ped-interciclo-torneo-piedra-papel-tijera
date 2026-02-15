@@ -23,6 +23,7 @@ public:
     ListaJugadores();
 
     //Funciones
+    bool existeJugador(string nombre);
     void InsertarJugador(string nombre);
 };
 #endif
