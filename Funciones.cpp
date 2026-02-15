@@ -141,6 +141,63 @@ void ListaJugadores::EliminarJugador(string nombre)
     pausar();
 }
 
+void ListaJugadores::MostrarGanador()
+{
+    if (!cabeza || cabeza->siguiente == cabeza)
+    {
+        cout << "No hay partidas registradas" << endl;
+        pausar();
+        return;
+    }
+
+    Jugador *temp = cabeza;
+    int puntajeMayor = cabeza->puntuacion;
+
+    // Encontrar el puntaje mayor
+    do
+    {
+        if (temp->puntuacion > puntajeMayor)
+        {
+            puntajeMayor = temp->puntuacion;
+        }
+        temp = temp->siguiente;
+    } while (temp != cabeza);
+
+    int contador = 0;
+    temp = cabeza;
+
+    // Jugadores con el mismo puntaje (empate)
+    do
+    {
+        if (temp->puntuacion == puntajeMayor)
+            contador++; // +1 jugador mismo puntaje
+        temp = temp->siguiente;
+    } while (temp != cabeza);
+
+    cout << "\n===== RESULTADO =====\n";
+    temp = cabeza;
+    if (contador > 1) // Hubo empate
+    {
+        cout << "Hubo un empate entre:" << endl;
+        do
+        {
+            if (temp->puntuacion == puntajeMayor)
+                cout << "- " << temp->nombre << endl;
+            temp = temp->siguiente;
+        } while (temp != cabeza);
+        cout << "Con " << puntajeMayor << " puntos" << endl;
+    }
+    else // Un solo ganador
+    {
+        while (temp->puntuacion != puntajeMayor)
+        {
+            temp = temp->siguiente;
+        }
+        cout << "El ganador es: " << temp->nombre << " con " << puntajeMayor << " puntos" << endl;
+    }
+    pausar();
+}
+
 // Funcion para calcular el resultado de cada partida
 int resultado(int jugador1, int jugador2)
 {
