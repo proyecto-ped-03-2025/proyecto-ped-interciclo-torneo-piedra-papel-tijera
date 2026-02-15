@@ -1,5 +1,15 @@
 #include "Funciones.h"
 
+void pausar()
+{
+    cout << "Presione Enter para continuar...";
+    cin.get();
+}
+void limpiar()
+{
+    system("cls");
+}
+
 ListaJugadores::ListaJugadores()
 {
     cabeza = nullptr;
@@ -29,7 +39,7 @@ void ListaJugadores::InsertarJugador(string nombre)
     if (existeJugador(nombre))
     {
         cout << "El jugador ya existe" << endl;
-
+        pausar();
         return;
     }
 
@@ -54,6 +64,8 @@ void ListaJugadores::InsertarJugador(string nombre)
         nuevo->siguiente = cabeza;
     }
     cout << "Jugador insertado: " << nombre << endl;
+    pausar();
+    limpiar();
     
     
 }
