@@ -15,6 +15,24 @@ ListaJugadores::ListaJugadores()
     cabeza = nullptr;
 }
 
+// Agregar destructor
+ListaJugadores::~ListaJugadores()
+{
+    if (!cabeza)
+        return;
+
+    Jugador *actual = cabeza->siguiente;
+
+    while (actual != cabeza)
+    {
+        Jugador *temp = actual;
+        actual = actual->siguiente;
+        delete temp;
+    }
+
+    delete cabeza;
+}
+
 bool ListaJugadores::existeJugador(string nombre)
 {
     // El jugador no es la cabeza
