@@ -103,3 +103,78 @@ int resultado(int jugador1, int jugador2)
 
     return -1; // gana jugador 2
 }
+
+void ListaJugadores::Jugar()
+{
+    // jugadores < 2
+    if (!cabeza || cabeza->siguiente == cabeza)
+    {
+        cout << "Se necesitan al menos 2 jugadores\n";
+        pausar();
+        return;
+    }
+
+    // Reiniciar puntos cada que se juega un torneo
+    Jugador *aux = cabeza;
+    do
+    {
+        aux->puntuacion = 0;
+        aux = aux->siguiente;
+    } while (aux != cabeza);
+
+    // Cada jugador se enfrenta a todos los demas una vez
+    // El jugador1 es la cabeza al empezar
+    Jugador *jugador1 = cabeza;
+    do
+    {
+        // El jugador2 empieza desde -> siguiente del jugador1
+        Jugador *jugador2 = jugador1->siguiente;
+        while (jugador2 != cabeza) // El jugador no puede jugar consigo mismo
+        {
+            int jugada1, jugada2;
+
+            cout << "\nEnfrentamiento: " << jugador1->nombre << " vs " << jugador2->nombre << endl;
+            do
+            {
+                cout << jugador1->nombre << " (1:Tijera 2:Papel 3:Piedra): ";
+                cin >> jugada1;
+            } while (jugada1 < 1 || jugada1 > 3); // Evita que pongan otras opciones
+
+            limpiar(); // El oponente no puede ver la respuesta :)
+
+            do
+            {
+                cout << jugador2->nombre << " (1:Tijera 2:Papel 3:Piedra): ";
+                cin >> jugada2;
+            } while (jugada2 < 1 || jugada2 > 3); // Evita que pongan otras opciones
+
+            // Determinando ganador
+            if (resultado(jugada1, jugada2) == 1)
+            {
+                jugador1->puntuacion += 3;
+                cout << jugador1->nombre << " gana (+3)" << endl;
+            }
+            else if (resultado(jugada1, jugada2) == -1)
+            {
+                jugador2->puntuacion += 3;
+                cout << jugador2->nombre << " gana (+3)" << endl;
+            }
+            else
+            {
+                jugador1->puntuacion++;
+                jugador2->puntuacion++;
+                cout << "Empate (+1 cada uno)" << endl;
+            }
+
+            // El jugador3 (pasa a ser jugador2) como jugador2 -> siguiente y asi sucesivamente hasta que acabe la lista
+            jugador2 = jugador2->siguiente;
+        }
+        // jugador1 -> siguiente (jugador2) pasa a ser jugador1
+        jugador1 = jugador1->siguiente;
+    } while (jugador1 != cabeza); // Evita que la cabeza juegue 2 veces y se repita
+
+    cout << "Ronda finalizada" << endl;
+    pausar();
+    cin.get();
+    limpiar();
+}
