@@ -21,6 +21,7 @@ private:
 
 public:
     ListaJugadores();
+    ~ListaJugadores();
 
     //Funciones
     bool existeJugador(string nombre);
