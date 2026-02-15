@@ -13,4 +13,16 @@ struct Jugador
     Jugador *siguiente;
 };
 
+// Clase ListaJugadores
+class ListaJugadores
+{
+private:
+    Jugador *cabeza;
+
+public:
+    ListaJugadores();
+
+    //Funciones
+    void InsertarJugador(string nombre);
+};
 #endif
