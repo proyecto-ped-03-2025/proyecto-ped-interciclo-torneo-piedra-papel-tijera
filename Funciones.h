@@ -27,6 +27,7 @@ public:
     bool existeJugador(string nombre);
     void InsertarJugador(string nombre);
     void Jugar();
+    void EliminarJugador(string nombre);
 };
 
 // Funciones para limpiar la pantalla y pausar el programa

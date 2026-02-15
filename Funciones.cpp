@@ -88,6 +88,59 @@ void ListaJugadores::InsertarJugador(string nombre)
     
 }
 
+void ListaJugadores::EliminarJugador(string nombre)
+{
+    // La lista esta vacia
+    if (!cabeza)
+    {
+        cout << "No hay jugadores para eliminar" << endl;
+        pausar();
+        return;
+    }
+
+    Jugador *temp = cabeza;
+    Jugador *prev = nullptr;
+
+    // Busca el jugador a eliminar
+    do
+    {
+        // Comparando nombre del nodo actual con el jugador a eliminar
+        if (temp->nombre == nombre) // Busqueda por nombre
+        {
+            if (temp == cabeza) // El jugador eliminado es la cabeza
+            {
+                Jugador *ultimo = cabeza;
+                while (ultimo->siguiente != cabeza) // Busca el ultimo nodo
+                    ultimo = ultimo->siguiente;
+
+                if (cabeza->siguiente == cabeza)
+                    cabeza = nullptr; // Solo habia un jugador, la lista queda vacia
+                else
+                {
+                    cabeza = cabeza->siguiente; // 2do nodo pasa a ser la cabeza
+                    ultimo->siguiente = cabeza; // El ultimo nodo deja de apuntar al nodo eliminado y apunta a cabeza
+                }
+            }
+            else // El jugador eliminado no es la cabeza
+            {
+                prev->siguiente = temp->siguiente; // El nodo anterior al elminado apunta a eliminado -> siguiente
+            }
+
+            delete temp;
+
+            cout << "Jugador eliminado" << endl;
+            pausar();
+            return;
+        }
+        prev = temp;
+        temp = temp->siguiente; // Recorriendo lista
+    } while (temp != cabeza);
+
+    // El jugador no fue encontrado
+    cout << "Jugador: " << nombre << " no encontrado" << endl;
+    pausar();
+}
+
 // Funcion para calcular el resultado de cada partida
 int resultado(int jugador1, int jugador2)
 {
