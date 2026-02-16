@@ -12,6 +12,65 @@ int main()
     return 0;
 }
 
+void MenuJuego(ListaJugadores &lista)
+{
+    int opcion;
+    string nombre;
+    string nombreEliminar;
+
+    do
+    {
+        limpiar();
+        cout << "JUGUEMOS PIEDRA, PAPEL O TIJERA" << endl;
+        cout << "==============================" << endl;
+        cout << "Menu Juego" << endl;
+        cout << "1. Jugar" << endl
+             << "2. Insertar Jugador" << endl
+             << "3. Eliminar Jugador" << endl
+             << "4. Mostrar ganador de la ultima ronda" << endl
+             << "5. Mostrar jugadores" << endl
+             << "6. Regresar al menu principal" << endl;
+        cout << "==============================" << endl;
+        cin >> opcion;
+        cin.ignore();
+
+        switch (opcion)
+        {
+        case 1:
+            lista.Jugar();
+            break;
+
+        case 2:
+            cout << "Ingrese nombre: ";
+            getline(cin, nombre);
+            lista.InsertarJugador(nombre);
+            break;
+
+        case 3:
+            cout << "Ingrese nombre a eliminar: ";
+            getline(cin, nombreEliminar);
+            lista.EliminarJugador(nombreEliminar);
+            break;
+
+        case 4:
+            lista.MostrarGanador();
+            break;
+
+        case 5:
+            lista.MostrarJugadores();
+            break;
+
+        case 6:
+            return;
+
+        default:
+            cout << "OpciÃ³n no valida" << endl;
+            pausar();
+            break;
+        }
+    } while (opcion != 6);
+}
+
 
 void MenuPrincipal(ListaJugadores &lista)
 {
