@@ -198,6 +198,28 @@ void ListaJugadores::MostrarGanador()
     pausar();
 }
 
+// Funcion para mostrar los jugadores registrados
+void ListaJugadores::MostrarJugadores()
+{
+    // La lista esta vacia
+    if (cabeza == nullptr)
+    {
+        cout << "No hay jugadores registrados" << endl;
+        pausar();
+        return;
+    }
+
+    cout << "Jugadores registrados:" << endl;
+    Jugador *temp = cabeza;
+    // Muestra los jugadores de la lista
+    do
+    {
+        cout << "Nombre: " << temp->nombre << endl;
+        temp = temp->siguiente;
+    } while (temp != cabeza);
+    pausar();
+}
+
 // Funcion para calcular el resultado de cada partida
 int resultado(int jugador1, int jugador2)
 {
