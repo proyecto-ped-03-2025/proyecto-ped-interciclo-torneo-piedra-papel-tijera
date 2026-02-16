@@ -27,7 +27,7 @@ void MenuJuego(ListaJugadores &lista)
         cout << "1. Jugar" << endl
              << "2. Insertar Jugador" << endl
              << "3. Eliminar Jugador" << endl
-             << "4. Mostrar ganador de la ultima ronda" << endl
+             << "4. Mostrar puntajes de la ultima ronda" << endl
              << "5. Mostrar jugadores" << endl
              << "6. Regresar al menu principal" << endl;
         cout << "==============================" << endl;

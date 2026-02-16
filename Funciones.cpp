@@ -153,6 +153,23 @@ void ListaJugadores::MostrarGanador()
     Jugador *temp = cabeza;
     int puntajeMayor = cabeza->puntuacion;
 
+    cout << "\n==========Resultados generales==========\n";
+
+    // Mostrar todas las puntuaciones
+    do
+    {
+        cout << temp->nombre << " - " << temp->puntuacion << " puntos" << endl;
+
+        if (temp->puntuacion > puntajeMayor)
+        {
+            puntajeMayor = temp->puntuacion;
+        }
+
+        temp = temp->siguiente;
+    } while (temp != cabeza);
+
+    cout << "=================================\n";
+
     // Encontrar el puntaje mayor
     do
     {
@@ -174,7 +191,7 @@ void ListaJugadores::MostrarGanador()
         temp = temp->siguiente;
     } while (temp != cabeza);
 
-    cout << "\n===== RESULTADO =====\n";
+    cout << "\n===== GANADOR =====\n";
     temp = cabeza;
     if (contador > 1) // Hubo empate
     {
