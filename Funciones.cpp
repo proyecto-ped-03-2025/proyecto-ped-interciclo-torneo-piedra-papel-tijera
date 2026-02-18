@@ -1,4 +1,6 @@
 #include "Funciones.h"
+#include <cstdlib>
+#include <ctime>
 
 void pausar()
 {
@@ -84,8 +86,155 @@ void ListaJugadores::InsertarJugador(string nombre)
     cout << "Jugador insertado: " << nombre << endl;
     pausar();
     limpiar();
-    
-    
+}
+
+void ListaJugadores::EliminarJugador(string nombre)
+{
+    // La lista esta vacia
+    if (!cabeza)
+    {
+        cout << "No hay jugadores para eliminar" << endl;
+        pausar();
+        return;
+    }
+
+    Jugador *temp = cabeza;
+    Jugador *prev = nullptr;
+
+    // Busca el jugador a eliminar
+    do
+    {
+        // Comparando nombre del nodo actual con el jugador a eliminar
+        if (temp->nombre == nombre) // Busqueda por nombre
+        {
+            if (temp == cabeza) // El jugador eliminado es la cabeza
+            {
+                Jugador *ultimo = cabeza;
+                while (ultimo->siguiente != cabeza) // Busca el ultimo nodo
+                    ultimo = ultimo->siguiente;
+
+                if (cabeza->siguiente == cabeza)
+                    cabeza = nullptr; // Solo habia un jugador, la lista queda vacia
+                else
+                {
+                    cabeza = cabeza->siguiente; // 2do nodo pasa a ser la cabeza
+                    ultimo->siguiente = cabeza; // El ultimo nodo deja de apuntar al nodo eliminado y apunta a cabeza
+                }
+            }
+            else // El jugador eliminado no es la cabeza
+            {
+                prev->siguiente = temp->siguiente; // El nodo anterior al elminado apunta a eliminado -> siguiente
+            }
+
+            delete temp;
+
+            cout << "Jugador eliminado" << endl;
+            pausar();
+            return;
+        }
+        prev = temp;
+        temp = temp->siguiente; // Recorriendo lista
+    } while (temp != cabeza);
+
+    // El jugador no fue encontrado
+    cout << "Jugador: " << nombre << " no encontrado" << endl;
+    pausar();
+}
+
+void ListaJugadores::MostrarGanador()
+{
+    if (!cabeza || cabeza->siguiente == cabeza)
+    {
+        cout << "No hay partidas registradas" << endl;
+        pausar();
+        return;
+    }
+
+    Jugador *temp = cabeza;
+    int puntajeMayor = cabeza->puntuacion;
+
+    cout << "\n==========Resultados generales==========\n";
+
+    // Mostrar todas las puntuaciones
+    do
+    {
+        cout << temp->nombre << " - " << temp->puntuacion << " puntos" << endl;
+
+        if (temp->puntuacion > puntajeMayor)
+        {
+            puntajeMayor = temp->puntuacion;
+        }
+
+        temp = temp->siguiente;
+    } while (temp != cabeza);
+
+    cout << "=================================\n";
+
+    // Encontrar el puntaje mayor
+    do
+    {
+        if (temp->puntuacion > puntajeMayor)
+        {
+            puntajeMayor = temp->puntuacion;
+        }
+        temp = temp->siguiente;
+    } while (temp != cabeza);
+
+    int contador = 0;
+    temp = cabeza;
+
+    // Jugadores con el mismo puntaje (empate)
+    do
+    {
+        if (temp->puntuacion == puntajeMayor)
+            contador++; // +1 jugador mismo puntaje
+        temp = temp->siguiente;
+    } while (temp != cabeza);
+
+    cout << "\n===== GANADOR =====\n";
+    temp = cabeza;
+    if (contador > 1) // Hubo empate
+    {
+        cout << "Hubo un empate entre:" << endl;
+        do
+        {
+            if (temp->puntuacion == puntajeMayor)
+                cout << "- " << temp->nombre << endl;
+            temp = temp->siguiente;
+        } while (temp != cabeza);
+        cout << "Con " << puntajeMayor << " puntos" << endl;
+    }
+    else // Un solo ganador
+    {
+        while (temp->puntuacion != puntajeMayor)
+        {
+            temp = temp->siguiente;
+        }
+        cout << "El ganador es: " << temp->nombre << " con " << puntajeMayor << " puntos" << endl;
+    }
+    pausar();
+}
+
+// Funcion para mostrar los jugadores registrados
+void ListaJugadores::MostrarJugadores()
+{
+    // La lista esta vacia
+    if (cabeza == nullptr)
+    {
+        cout << "No hay jugadores registrados" << endl;
+        pausar();
+        return;
+    }
+
+    cout << "Jugadores registrados:" << endl;
+    Jugador *temp = cabeza;
+    // Muestra los jugadores de la lista
+    do
+    {
+        cout << "Nombre: " << temp->nombre << endl;
+        temp = temp->siguiente;
+    } while (temp != cabeza);
+    pausar();
 }
 
 // Funcion para calcular el resultado de cada partida
@@ -177,4 +326,77 @@ void ListaJugadores::Jugar()
     pausar();
     cin.get();
     limpiar();
+}
+
+void ListaJugadores ::jugar_vs_computadora()
+{
+    if (!cabeza)
+    {
+        cout << "No hay jugadores registrados" << endl;
+        pausar();
+        return;
+    }
+
+    srand(time(NULL)); // Inicializa numero random para la computadora
+
+    // Reiniciar puntos
+    Jugador *temp = cabeza;
+    do
+    {
+        temp->puntuacion = 0;
+        temp = temp->siguiente;
+    } while (temp != cabeza);
+
+    temp = cabeza;
+
+    do
+    {
+        int jugadaJugador;
+        int jugadaPC = rand() % 3 + 1; // 1-3
+
+        cout << "Turno de: " << temp->nombre << endl;
+
+        do
+        {
+            cout << "Ingrese jugada (1: Tijera 2: Papel 3: Piedra): ";
+            cin >> jugadaJugador;
+        } while (jugadaJugador < 1 || jugadaJugador > 3);
+
+        cout << "La computadora eligio: ";
+
+        if (jugadaPC == 1)
+        {
+            cout << "Tijera" << endl;
+        }
+        else if (jugadaPC == 2)
+        {
+            cout << "Papel" << endl;
+        }
+        else
+        {
+            cout << "Piedra" << endl;
+        }
+
+        if (resultado(jugadaJugador, jugadaPC) == 1)
+        {
+            temp->puntuacion += 3;
+            cout << temp->nombre << " gana (+3)" << endl;
+        }
+        else if (resultado(jugadaJugador, jugadaPC) == -1)
+        {
+            cout << "La computadora gana" << endl;
+        }
+        else
+        {
+            temp->puntuacion += 1;
+            cout << "Empate (+1)" << endl;
+        }
+
+        temp = temp->siguiente;
+        pausar();
+
+    } while (temp != cabeza);
+
+    cout << "Ronda contra la computadora finalizada" << endl;
+    pausar();
 }
