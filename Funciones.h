@@ -30,6 +30,7 @@ public:
     void EliminarJugador(string nombre);
     void MostrarGanador();
     void MostrarJugadores();
+    void jugar_vs_computadora();
 };
 
 // Funciones para limpiar la pantalla y pausar el programa

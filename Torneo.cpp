@@ -25,11 +25,12 @@ void MenuJuego(ListaJugadores &lista)
         cout << "==============================" << endl;
         cout << "Menu Juego" << endl;
         cout << "1. Jugar" << endl
-             << "2. Insertar Jugador" << endl
-             << "3. Eliminar Jugador" << endl
-             << "4. Mostrar puntajes de la ultima ronda" << endl
-             << "5. Mostrar jugadores" << endl
-             << "6. Regresar al menu principal" << endl;
+             << "2. Jugar contra la computadora" << endl
+             << "3. Insertar Jugador" << endl
+             << "4. Eliminar Jugador" << endl
+             << "5. Mostrar puntajes de la ultima ronda" << endl
+             << "6. Mostrar jugadores" << endl
+             << "7. Regresar al menu principal" << endl;
         cout << "==============================" << endl;
         cin >> opcion;
         cin.ignore();
@@ -41,36 +42,39 @@ void MenuJuego(ListaJugadores &lista)
             break;
 
         case 2:
+            lista.jugar_vs_computadora();
+            break;
+
+        case 3:
             cout << "Ingrese nombre: ";
             getline(cin, nombre);
             lista.InsertarJugador(nombre);
             break;
 
-        case 3:
+        case 4:
             cout << "Ingrese nombre a eliminar: ";
             getline(cin, nombreEliminar);
             lista.EliminarJugador(nombreEliminar);
             break;
 
-        case 4:
+        case 5:
             lista.MostrarGanador();
             break;
 
-        case 5:
+        case 6:
             lista.MostrarJugadores();
             break;
 
-        case 6:
+        case 7:
             return;
 
         default:
-            cout << "OpciÃ³n no valida" << endl;
+            cout << "Opcion no valida" << endl;
             pausar();
             break;
         }
-    } while (opcion != 6);
+    } while (opcion != 7);
 }
-
 
 void MenuPrincipal(ListaJugadores &lista)
 {
