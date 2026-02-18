@@ -1,4 +1,6 @@
 #include "Funciones.h"
+#include <cstdlib>
+#include <ctime>
 
 void pausar()
 {
@@ -84,8 +86,6 @@ void ListaJugadores::InsertarJugador(string nombre)
     cout << "Jugador insertado: " << nombre << endl;
     pausar();
     limpiar();
-    
-    
 }
 
 void ListaJugadores::EliminarJugador(string nombre)
@@ -326,4 +326,77 @@ void ListaJugadores::Jugar()
     pausar();
     cin.get();
     limpiar();
+}
+
+void ListaJugadores ::jugar_vs_computadora()
+{
+    if (!cabeza)
+    {
+        cout << "No hay jugadores registrados" << endl;
+        pausar();
+        return;
+    }
+
+    srand(time(NULL)); // Inicializa numero random para la computadora
+
+    // Reiniciar puntos
+    Jugador *temp = cabeza;
+    do
+    {
+        temp->puntuacion = 0;
+        temp = temp->siguiente;
+    } while (temp != cabeza);
+
+    temp = cabeza;
+
+    do
+    {
+        int jugadaJugador;
+        int jugadaPC = rand() % 3 + 1; // 1-3
+
+        cout << "Turno de: " << temp->nombre << endl;
+
+        do
+        {
+            cout << "Ingrese jugada (1: Tijera 2: Papel 3: Piedra): ";
+            cin >> jugadaJugador;
+        } while (jugadaJugador < 1 || jugadaJugador > 3);
+
+        cout << "La computadora eligio: ";
+
+        if (jugadaPC == 1)
+        {
+            cout << "Tijera" << endl;
+        }
+        else if (jugadaPC == 2)
+        {
+            cout << "Papel" << endl;
+        }
+        else
+        {
+            cout << "Piedra" << endl;
+        }
+
+        if (resultado(jugadaJugador, jugadaPC) == 1)
+        {
+            temp->puntuacion += 3;
+            cout << temp->nombre << " gana (+3)" << endl;
+        }
+        else if (resultado(jugadaJugador, jugadaPC) == -1)
+        {
+            cout << "La computadora gana" << endl;
+        }
+        else
+        {
+            temp->puntuacion += 1;
+            cout << "Empate (+1)" << endl;
+        }
+
+        temp = temp->siguiente;
+        pausar();
+
+    } while (temp != cabeza);
+
+    cout << "Ronda contra la computadora finalizada" << endl;
+    pausar();
 }
